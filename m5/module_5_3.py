@@ -54,7 +54,7 @@ class House:
 
     def __add__(self, value):
         if not isinstance(value, int):
-            return False
+            print('Операция не возможна')
         self.number_of_floors += value
         return self
 
