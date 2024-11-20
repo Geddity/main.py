@@ -20,12 +20,13 @@ class Figure:
 
     def set_color(self, r, g, b):
         if not self.__is_valid_color(r, g, b):
-            print("введены некорректные данные")
+            pass
+            # print("введены некорректные данные")
         else:
             self.__color = [r, g, b]
 
     def get_color(self):
-        return self.__color
+        return list(self.__color)
 
     def __is_valid_sides(self, *new_sides):
         if len(new_sides) != self.sides_count or not all(isinstance(side, int) for side in new_sides):
@@ -50,7 +51,16 @@ class Circle(Figure):
 
     def __init__(self, color=(255, 255, 255), sides=1):
         super().__init__(color, sides)
+        self.__sides = [sides]
         self.__radius = sides / (math.pi * 2)
+
+    def set_sides(self, *new_sides):
+        if len(new_sides) == 1 and all(isinstance(side, int) for side in new_sides):
+            self.__sides = [new_sides[0]]
+            self.__radius = new_sides[0] / (math.pi * 2)
+
+    def get_sides(self):
+        return self.__sides
 
     def get_square(self):
         return math.pi * (self.__radius ** 2)
@@ -102,28 +112,23 @@ class Cube(Figure):
 
 
 
-circle1 = Circle((200, 200, 100),  10)
-trian1 = Triangle((100,100,100), 7)
+circle1 = Circle((200, 200, 100), 10) # (Цвет, стороны)
 cube1 = Cube((222, 35, 130), 6)
 
-circle1.set_color(55, 66, 77)
+# Проверка на изменение цветов:
+circle1.set_color(55, 66, 77) # Изменится
 print(circle1.get_color())
-print(circle1.get_sides())
-print(f"Периметр: {len(circle1)}")
-print(f"Площадь: {circle1.get_square()}")
-print("\n")
-
-trian1.set_sides(4, 5, 'a')
-print(trian1.get_sides())
-print(f"Периметр: {len(trian1)}")
-print(f"Площадь: {trian1.get_square()}")
-print("\n")
-
-cube1.set_color(300, 70, 15)
+cube1.set_color(300, 70, 15) # Не изменится
 print(cube1.get_color())
-cube1.set_sides(5, 3, 12, 4, 5, 4, 4, 5, 5, 7, 3, 2)
+
+# Проверка на изменение сторон:
+cube1.set_sides(5, 3, 12, 4, 5) # Не изменится
 print(cube1.get_sides())
-cube1.set_sides(4)
-print(cube1.get_sides())
-print(f"Периметр: {len(cube1)}")
-print(f"Объем: {cube1.get_volume()}")
+circle1.set_sides(15) # Изменится
+print(circle1.get_sides())
+
+# Проверка периметра (круга), это и есть длина:
+print(len(circle1))
+
+# Проверка объёма (куба):
+print(cube1.get_volume())
